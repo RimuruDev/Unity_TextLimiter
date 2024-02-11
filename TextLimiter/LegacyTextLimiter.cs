@@ -1,3 +1,14 @@
+// Resharper disable all
+// **************************************************************** //
+//
+//   Copyright (c) RimuruDev. All rights reserved.
+//   Contact me: 
+//          - Gmail:    rimuru.dev@gmail.com
+//          - GitHub:   https://github.com/RimuruDev
+//          - LinkedIn: https://www.linkedin.com/in/rimuru/
+//          - GitHub    Organizations: https://github.com/Rimuru-Dev
+// **************************************************************** //
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +22,7 @@ namespace RimuruDev.TextLimiter
     {
         [SerializeField, Min(0)] private int maxLength = 120;
         [SerializeField, HideInInspector] private Text uiText;
+        [SerializeField] private bool editorMode;
 
         private void Awake() =>
             CacheTextComponent();
@@ -19,8 +31,13 @@ namespace RimuruDev.TextLimiter
         private void OnValidate() =>
             CacheTextComponent();
 
-        private void Update() =>
+        private void Update()
+        {
+            if (!editorMode)
+                return;
+
             UpdateText(uiText.text);
+        }
 
         public void UpdateText(string newText) =>
             uiText.text = newText.Length > maxLength ? newText[..maxLength] : newText;
